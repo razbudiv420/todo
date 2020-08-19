@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {Container, Row, InputGroup, FormControl} from 'react-bootstrap'
+import TodoList from './totoList'
 
 function App() {
+
+  const [todos, setTodos] = useState([
+    {id: 1, title: 'title', complited: false},
+    {id: 1, title: 'title', complited: false}
+  ]
+  )
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Container className="">
+       <Row>
+        <h1>Todo List</h1>
+       </Row>
+       <Row>
+       <InputGroup className="mb-3">
+    <FormControl placeholder="todo"/>
+  </InputGroup>
+       </Row>
+       <TodoList todos = {todos}/>
+     </Container>
     </div>
   );
 }
