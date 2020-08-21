@@ -6,10 +6,22 @@ function App() {
 
   const [todos, setTodos] = useState([
     {id: 1, title: 'title', complited: false},
-    {id: 1, title: 'title', complited: false}
+    {id: 2, title: 'title', complited: false}
   ]
   )
-  
+  const [todoTitle, setTitle] = useState('');
+  const inputHandler = event => {
+    if (event.key === 'Enter') {
+      setTodos([...todos,
+          {
+            id: Date.now(),
+            title: todoTitle,
+            complited: false
+          }
+      ])
+      setTitle('');
+    }
+  }
   return (
     <div className="App">
      <Container className="">
@@ -18,7 +30,7 @@ function App() {
        </Row>
        <Row>
        <InputGroup className="mb-3">
-    <FormControl placeholder="todo"/>
+    <FormControl value={todoTitle} onChange={event => setTitle(event.target.value)} onKeyPress={inputHandler} placeholder="todo"/>
   </InputGroup>
        </Row>
        <TodoList todos = {todos}/>
