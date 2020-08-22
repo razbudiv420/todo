@@ -1,14 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Container, Row, InputGroup, FormControl} from 'react-bootstrap'
 import TodoList from './totoList'
-
+import {Context} from './Context'
 function App() {
 
-  const [todos, setTodos] = useState([
-    {id: 1, title: 'title', complited: false},
-    {id: 2, title: 'title', complited: false}
-  ]
-  )
+  const [todos, setTodos] = useState([]);
   const [todoTitle, setTitle] = useState('');
   const inputHandler = event => {
     if (event.key === 'Enter') {
@@ -22,7 +18,32 @@ function App() {
       setTitle('');
     }
   }
+useEffect(()=>{
+  const list = localStorage.getItem('todos') || []
+  setTodos(JSON.parse(list));
+}, [])
+
+useEffect(()=>{
+  localStorage.setItem('todos', JSON.stringify(todos))
+}, [todos])
+
+const toggle = id => {
+    setTodos(todos.map(todo => {
+      if(todo.id === id) {
+        todo.complited = !todo.complited;
+      }
+      return todo
+    }))
+  }
+const remove = id => {
+    setTodos(todos.filter(todo => {
+      return todo.id !== id
+    }))
+}
   return (
+    <Context.Provider value={
+      {toggle, remove}
+    }>
     <div className="App">
      <Container className="">
        <Row>
@@ -36,6 +57,7 @@ function App() {
        <TodoList todos = {todos}/>
      </Container>
     </div>
+    </Context.Provider>
   );
 }
 
